@@ -46,7 +46,7 @@ export function Dashboard() {
       amount: 'R$ 59,00',
       category: {
         name: 'Alimentação',
-        icon: 'coffe',
+        icon: 'coffee',
       },
       date: '13/04/2022',
     },
