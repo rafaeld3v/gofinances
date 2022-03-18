@@ -76,7 +76,7 @@ export const Icon = styled(Feather)`
   font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
-export const HighLightCards = styled.ScrollView.attrs({
+export const HighlightCards = styled.ScrollView.attrs({
   horizontal: true,
   showsHorizontalScrollIndicator: false,
   contentContainerStyle: { paddingHorizontal: 24 },
@@ -113,3 +113,9 @@ export const TransactionList = styled(
     paddingBottom: getBottomSpace(),
   },
 })``;
+
+export const LoadingContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
