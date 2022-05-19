@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-  <img alt="License" src="./assets/icon.svg">
+  <img alt="License" src="./assets/capa.svg">
 
  <img src="https://img.shields.io/static/v1?label=Ignite&message=ReactNative&color=32B768&labelColor=000000" alt="Ignite" />
 </p>
