@@ -34,4 +34,4 @@ Você pode visualizar o layout do projeto através [desse link](https://www.figm
 
 ## 📄 Licença
 
-Desenvolvido durante o Treinamento Ignite da Rocketseat **por** [**RafaelD3v**](https://www.linkedin.com/in/rafaeld3v/) 🤖
+Desenvolvido durante o Treinamento Ignite da Rocketseat **por** [**rafaeld3v**](https://www.linkedin.com/in/rafaeld3v/) 🤖
