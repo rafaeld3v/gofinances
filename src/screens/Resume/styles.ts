@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 

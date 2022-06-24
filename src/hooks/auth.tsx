@@ -6,12 +6,13 @@ import {
   useState,
 } from 'react';
 
-const { CLIENT_ID } = process.env;
-const { REDIRECT_URI } = process.env;
+const CLIENT_ID =
+  '116480188610-bn2fmj0jjggghvomt41ag569phacuj3d.apps.googleusercontent.com';
+const REDIRECT_URI = 'https://auth.expo.io/@rafaeld3v/gofinances';
 
 import * as Google from 'expo-auth-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface AuthProviderProps {
   children: ReactNode;
