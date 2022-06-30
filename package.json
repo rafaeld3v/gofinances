@@ -1,14 +1,33 @@
 {
   "name": "gofinances",
   "version": "1.0.0",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "web": "expo start --web",
     "start": "react-native start",
-    "test": "jest",
-    "test:w": "jest --watchAll"
+    "test": "jest --watchAll",
+    "test-report": "jest --coverage"
+  },
+  "eslintConfig": {
+    "extends": [
+      "prettier",
+      "prettier/react",
+      "prettier/react-native"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.0",
@@ -67,6 +86,5 @@
   "resolutions": {
     "@types/react": "17.0.14",
     "@types/react-dom": "17.0.14"
-  },
-  "private": true
+  }
 }

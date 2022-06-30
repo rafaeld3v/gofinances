@@ -14,9 +14,12 @@ export const Container = styled(RectButton).attrs({
 
   border-radius: 5px;
   padding: 18px 16px;
+
+  margin-bottom: 16px;
 `;
 
 export const Category = styled.Text`
+  background-color: ${({ theme }) => theme.colors.shape};
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(14)}px;
 `;
