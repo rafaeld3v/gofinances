@@ -30,6 +30,12 @@ Você pode visualizar o layout do projeto através [desse link](https://www.figm
 
 - Clone o repositório
 - Instale as dependências com `yarn`
+- Configure seu `process.env`
+    CLIENT_ID=
+    REDIRECT_URI=
+  - Google Credentials (https://console.cloud.google.com/)
+  - [Expo Guide Authentication](https://docs.expo.dev/guides/authentication/#google)
+  - [Google Credentials](https://console.cloud.google.com/)
 - Inicie seu app com `expo start`
 
 ## 📄 Licença
