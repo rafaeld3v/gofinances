@@ -6,9 +6,8 @@ import React, {
   useState,
 } from 'react';
 
-const CLIENT_ID =
-  '116480188610-bn2fmj0jjggghvomt41ag569phacuj3d.apps.googleusercontent.com';
-const REDIRECT_URI = 'https://auth.expo.io/@rafaeld3v/gofinances';
+const CLIENT_ID = process.env;
+const REDIRECT_URI = process.env;
 
 import * as Google from 'expo-auth-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
