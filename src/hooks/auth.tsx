@@ -6,8 +6,8 @@ import React, {
   useState,
 } from 'react';
 
-const CLIENT_ID = process.env;
-const REDIRECT_URI = process.env;
+const { CLIENT_ID } = process.env;
+const { REDIRECT_URI } = process.env;
 
 import * as Google from 'expo-auth-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
