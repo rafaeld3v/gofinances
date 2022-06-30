@@ -13,11 +13,12 @@ import {
   ParamListBase,
 } from '@react-navigation/native';
 
+import { CategorySelect } from '../CategorySelect';
+
 import { InputForm } from '../../components/Form/InputForm';
 import { Button } from '../../components/Form/Button';
 import { TransactionTypeButton } from '../../components/Form/TransactionTypeButton';
 import { CategorySelectButton } from '../../components/Form/CategorySelectButton';
-import { CategorySelect } from '../CategorySelect';
 
 import {
   Container,
@@ -129,14 +130,14 @@ export function Register() {
               placeholder="Nome"
               autoCapitalize="sentences"
               autoCorrect={false}
-              error={errors.name && errors.name.message}
+              error={String(errors.name)}
             />
             <InputForm
               name="amount"
               control={control}
               placeholder="Preço"
               keyboardType="numeric"
-              error={errors.amount && errors.amount.message}
+              error={String(errors.amount)}
             />
 
             <TransactionTypes>
