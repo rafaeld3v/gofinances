@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react';
 
+import 'dotenv';
 const { CLIENT_ID } = process.env;
 const { REDIRECT_URI } = process.env;
 
