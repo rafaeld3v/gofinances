@@ -56,4 +56,3 @@ dist/
 
 # Sensitive Data
 .env
-process.env
