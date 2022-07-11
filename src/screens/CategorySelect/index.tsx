@@ -1,7 +1,7 @@
-import React from 'react';
-import { FlatList } from 'react-native';
-import { Button } from '../../components/Form/Button';
-import { categories } from '../../utils/categories';
+import React from "react";
+import { FlatList, Pressable } from "react-native";
+import { Button } from "../../components/Form/Button";
+import { categories } from "../../utils/categories";
 
 import {
   Container,
@@ -12,7 +12,7 @@ import {
   Name,
   Separator,
   Footer,
-} from './styles';
+} from "./styles";
 
 interface Category {
   key: string;
@@ -42,7 +42,7 @@ export function CategorySelect({
 
       <FlatList
         data={categories}
-        style={{ flex: 1, width: '100%' }}
+        style={{ flex: 1, width: "100%" }}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
           <Category
@@ -57,7 +57,9 @@ export function CategorySelect({
       />
 
       <Footer>
-        <Button title="Selecionar" onPress={closeSelectCategory} />
+        <Pressable>
+          <Button title="Selecionar" onPress={closeSelectCategory} />
+        </Pressable>
       </Footer>
     </Container>
   );
