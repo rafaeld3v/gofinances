@@ -6,7 +6,7 @@ import theme from '../../global/styles/theme';
 
 import { Register } from '.';
 
-const Providers: React.FC = ({ children }) => (
+const Providers: React.FC = ({ children }: any) => (
   <ThemeProvider theme={theme}>{children}</ThemeProvider>
 );
 

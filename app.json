@@ -2,17 +2,37 @@
   "expo": {
     "name": "gofinances",
     "slug": "gofinances",
-    "scheme": "gofinances",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#5636D3"
+      "backgroundColor": "#4124B2"
     },
-    "description": "",
-    "githubUrl": "https://github.com/rafaeld3v/gofinances"
+    "assetBundlePatterns": ["*/"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.rafaeld3v.gofinances"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "githubUrl": "https://github.com/rafaeld3v/gofinances",
+    "extra": {
+      "eas": {
+        "projectId": "2c94296f-71b4-43a4-be78-da9457ddfbc8"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/2c94296f-71b4-43a4-be78-da9457ddfbc8"
+    }
   }
 }

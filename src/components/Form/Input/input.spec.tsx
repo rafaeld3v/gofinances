@@ -5,7 +5,7 @@ import { Input } from '.';
 import { ThemeProvider } from 'styled-components/native';
 import theme from '../../../global/styles/theme';
 
-const Providers: React.FC = ({ children }) => (
+const Providers: React.FC = ({ children }: any) => (
   <ThemeProvider theme={theme}>{children}</ThemeProvider>
 );
 
@@ -17,7 +17,6 @@ describe('Input Component', () => {
         placeholder="E-mail"
         keyboardType="email-address"
         autoCorrect={false}
-        active={true}
       />,
       {
         wrapper: Providers,
