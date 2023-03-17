@@ -2,6 +2,8 @@
   "expo": {
     "name": "gofinances",
     "slug": "gofinances",
+    "scheme": "gofinances",
+    "originalFullName": "@username/slug",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -32,7 +34,8 @@
       }
     },
     "updates": {
-      "url": "https://u.expo.dev/2c94296f-71b4-43a4-be78-da9457ddfbc8"
+      "url": "https://u.expo.dev/2c94296f-71b4-43a4-be78-da9457ddfbc8",
+      "fallbackToCacheTimeout": 0
     }
   }
 }
