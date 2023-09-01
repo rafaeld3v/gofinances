@@ -28,17 +28,22 @@
       "package": "com.rafaeld3v.gofinances"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "googleSignIn": {
+          "webClientId": "49891934433-6gtmtac8tr7rivuupa935q7mo86so0hl.apps.googleusercontent.com"
+        }
+      }
     },
     "githubUrl": "https://github.com/rafaeld3v/gofinances",
     "extra": {
       "eas": {
         "projectId": "2c94296f-71b4-43a4-be78-da9457ddfbc8"
+      },
+      "updates": {
+        "url": "https://u.expo.dev/2c94296f-71b4-43a4-be78-da9457ddfbc8",
+        "fallbackToCacheTimeout": 0
       }
-    },
-    "updates": {
-      "url": "https://u.expo.dev/2c94296f-71b4-43a4-be78-da9457ddfbc8",
-      "fallbackToCacheTimeout": 0
     }
   }
 }
