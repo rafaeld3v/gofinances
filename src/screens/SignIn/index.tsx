@@ -65,17 +65,21 @@ export function SignIn() {
 
       <Footer>
         <FooterWrapper>
-          <SignInSocialButton
-            title="Entrar com Google"
-            svg={GoogleSvg}
-            onPress={handleSignInWithGoogle}
-          />
+          {Platform.OS === "android" && (
+            <SignInSocialButton
+              title="Entrar com Google"
+              svg={GoogleSvg}
+              onPress={handleSignInWithGoogle}
+            />
+          )}
 
-          <SignInSocialButton
-            title="Entrar com Apple"
-            svg={AppleSvg}
-            onPress={handleSignInWithApple}
-          />
+          {Platform.OS === "ios" && (
+            <SignInSocialButton
+              title="Entrar com Apple"
+              svg={AppleSvg}
+              onPress={handleSignInWithApple}
+            />
+          )}
         </FooterWrapper>
 
         {isLoading && (
