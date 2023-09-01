@@ -6,14 +6,10 @@ import React, {
   useEffect,
 } from "react";
 
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from "@react-native-google-signin/google-signin";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as GoogleAuthentication from "expo-google-app-auth";
 import * as AppleAuthentication from "expo-apple-authentication";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -41,32 +37,37 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const userStorageKey = "@gofinances:user";
 
-  async function configureGoogleSignIn() {
-    try {
-      await GoogleSignin.configure({
-        webClientId:
-          "49891934433-6gtmtac8tr7rivuupa935q7mo86so0hl.apps.googleusercontent.com",
-        offlineAccess: false,
-      });
-    } catch (error) {
-      console.error("Erro ao configurar o Google Sign-In:", error);
-    }
-  }
-
   async function signInWithGoogle() {
     try {
-      await configureGoogleSignIn();
-      const { user } = await GoogleSignin.signIn();
+      const { type, user, accessToken, idToken } =
+        await GoogleAuthentication.logInAsync({
+          androidClientId: "SEU_CLIENT_ID_ANDROID",
+          iosClientId: "SEU_CLIENT_ID_IOS",
+          scopes: ["profile", "email"],
+        });
 
-      const userLogged = {
-        id: user.id,
-        email: user.email || "",
-        name: user.name || "",
-        photo: user.photo || "",
-      };
+      if (type === "success") {
+        const userInfoResponse = await fetch(
+          "https://www.googleapis.com/userinfo/v2/me",
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
 
-      setUser(userLogged);
-      await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
+        const userInfo = await userInfoResponse.json();
+
+        const userLogged = {
+          id: userInfo.id,
+          email: userInfo.email || "",
+          name: userInfo.name || "",
+          photo: userInfo.picture || "",
+        };
+
+        setUser(userLogged);
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
+      } else {
+        throw new Error("Erro ao fazer login com o Google");
+      }
     } catch (error: any) {
       throw new Error(error.message || "Erro ao fazer login com o Google");
     }
@@ -102,7 +103,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function signOut() {
     try {
-      await GoogleSignin.signOut();
       setUser({} as User);
       await AsyncStorage.removeItem(userStorageKey);
     } catch (error) {
