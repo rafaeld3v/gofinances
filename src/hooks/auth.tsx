@@ -6,18 +6,13 @@ import React, {
   useEffect,
 } from "react";
 
-import "firebase/auth";
-import firebase from "firebase/compat/app";
-import * as AuthSession from "expo-auth-session";
-import * as AppleAuthentication from "expo-apple-authentication";
-
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const authConfig = {
-  webClientId:
-    "49891934433-6gtmtac8tr7rivuupa935q7mo86so0hl.apps.googleusercontent.com",
-  scopes: ["profile", "email"],
-};
+import * as AppleAuthentication from "expo-apple-authentication";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -46,43 +41,32 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const userStorageKey = "@gofinances:user";
 
+  async function configureGoogleSignIn() {
+    try {
+      await GoogleSignin.configure({
+        webClientId:
+          "49891934433-6gtmtac8tr7rivuupa935q7mo86so0hl.apps.googleusercontent.com",
+        offlineAccess: false,
+      });
+    } catch (error) {
+      console.error("Erro ao configurar o Google Sign-In:", error);
+    }
+  }
+
   async function signInWithGoogle() {
     try {
-      const redirectUrl = AuthSession.makeRedirectUri({ useProxy: true });
-      const result = await AuthSession.startAsync({
-        authUrl: `https://accounts.google.com/o/oauth2/auth?client_id=${
-          authConfig.webClientId
-        }&redirect_uri=${encodeURIComponent(
-          redirectUrl
-        )}&response_type=token&scope=${authConfig.scopes.join("%20")}`,
-      });
+      await configureGoogleSignIn();
+      const { user } = await GoogleSignin.signIn();
 
-      if (result.type === "success" && result.params) {
-        const { access_token } = result.params;
+      const userLogged = {
+        id: user.id,
+        email: user.email || "",
+        name: user.name || "",
+        photo: user.photo || "",
+      };
 
-        const credential = firebase.auth.GoogleAuthProvider.credential(
-          null,
-          access_token
-        );
-
-        await firebase.auth().signInWithCredential(credential);
-
-        const currentUser = firebase.auth().currentUser;
-
-        if (currentUser) {
-          const userLogged = {
-            id: currentUser.uid,
-            email: currentUser.email || "",
-            name: currentUser.displayName || "",
-            photo: currentUser.photoURL || "",
-          };
-
-          await AsyncStorage.setItem(
-            "userStorageKey",
-            JSON.stringify(userLogged)
-          );
-        }
-      }
+      setUser(userLogged);
+      await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
     } catch (error: any) {
       throw new Error(error.message || "Erro ao fazer login com o Google");
     }
@@ -98,12 +82,12 @@ function AuthProvider({ children }: AuthProviderProps) {
       });
 
       if (credential) {
-        const name = credential.fullName!.givenName!;
+        const name = credential.fullName?.givenName || "";
         const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
 
         const userLogged = {
-          id: String(credential.user),
-          email: credential.email!,
+          id: credential.user,
+          email: credential.email || "",
           name,
           photo,
         };
@@ -117,8 +101,13 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signOut() {
-    setUser({} as User);
-    await AsyncStorage.removeItem(userStorageKey);
+    try {
+      await GoogleSignin.signOut();
+      setUser({} as User);
+      await AsyncStorage.removeItem(userStorageKey);
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+    }
   }
 
   useEffect(() => {
