@@ -1,0 +1,18 @@
+{
+  "cli": {
+    "version": ">= 0.60.0"
+  },
+  "build": {
+    "preview": {
+      "developmentClient": true,
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "production": {}
+  },
+  "submit": {
+    "production": {}
+  }
+}
