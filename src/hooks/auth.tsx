@@ -3,17 +3,21 @@ import React, {
   ReactNode,
   useContext,
   useState,
-  useEffect
-} from 'react';
+  useEffect,
+} from "react";
 
-/* const { CLIENT_ID } = process.env;
-const { REDIRECT_URI } = process.env;
+import "firebase/auth";
+import firebase from "firebase/compat/app";
+import * as AuthSession from "expo-auth-session";
+import * as AppleAuthentication from "expo-apple-authentication";
 
-import * as AuthSession from 'expo-auth-session'; */
-import * as Google from 'expo-google-app-auth';
-import * as AppleAuthentication from 'expo-apple-authentication';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+const authConfig = {
+  webClientId:
+    "49891934433-6gtmtac8tr7rivuupa935q7mo86so0hl.apps.googleusercontent.com",
+  scopes: ["profile", "email"],
+};
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -34,71 +38,53 @@ interface IAuthContextData {
   userStorageLoading: boolean;
 }
 
-/* interface AuthorizationResponse {
-  params: {
-    access_token: string;
-  };
-  type: string;
-} */
-
 const AuthContext = createContext({} as IAuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
   const [userStorageLoading, setUserStorageLoading] = useState(true);
 
-  const userStorageKey = '@gofinances:user';
+  const userStorageKey = "@gofinances:user";
 
-  /*  
   async function signInWithGoogle() {
     try {
-      const RESPONSE_TYPE = 'token';
-      const SCOPE = encodeURI('profile email');
-
-      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
-
-      const { type, params } = await AuthSession
-        .startAsync({ authUrl }) as AuthorizationResponse;
-      if (type === 'success') {
-        const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`);
-        const userInfo = await response.json();
-
-        const userLogged = {
-          id: userInfo.id,
-          email: userInfo.email,
-          name: userInfo.given_name,
-          photo: userInfo.picture
-        };
-
-        setUser(userLogged);
-        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
-      }
-    } catch (error) {
-      throw new Error(String(error));
-    }
-  }
-  */
-  async function signInWithGoogle() {
-    try {
-      const result = await Google.logInAsync({
-        iosClientId: '797746893862-7q7kki8g4a0r1g33ml4mei1lg7bdpsv3.apps.googleusercontent.com',
-        androidClientId: '797746893862-nnmfjm08n9usosvq7gj7pickk7uosnic.apps.googleusercontent.com',
-        scopes: ['profile', 'email']
+      const redirectUrl = AuthSession.makeRedirectUri({ useProxy: true });
+      const result = await AuthSession.startAsync({
+        authUrl: `https://accounts.google.com/o/oauth2/auth?client_id=${
+          authConfig.webClientId
+        }&redirect_uri=${encodeURIComponent(
+          redirectUrl
+        )}&response_type=token&scope=${authConfig.scopes.join("%20")}`,
       });
 
-      if (result.type === 'success') {
-        const userLogged = {
-          id: String(result.user.id),
-          email: result.user.email!,
-          name: result.user.name!,
-          photo: result.user.photoUrl!
-        };
+      if (result.type === "success" && result.params) {
+        const { access_token } = result.params;
 
-        setUser(userLogged);
-        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
+        const credential = firebase.auth.GoogleAuthProvider.credential(
+          null,
+          access_token
+        );
+
+        await firebase.auth().signInWithCredential(credential);
+
+        const currentUser = firebase.auth().currentUser;
+
+        if (currentUser) {
+          const userLogged = {
+            id: currentUser.uid,
+            email: currentUser.email || "",
+            name: currentUser.displayName || "",
+            photo: currentUser.photoURL || "",
+          };
+
+          await AsyncStorage.setItem(
+            "userStorageKey",
+            JSON.stringify(userLogged)
+          );
+        }
       }
-    } catch (error) {
-      throw new Error(String(error));
+    } catch (error: any) {
+      throw new Error(error.message || "Erro ao fazer login com o Google");
     }
   }
 
@@ -108,7 +94,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         requestedScopes: [
           AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
           AppleAuthentication.AppleAuthenticationScope.EMAIL,
-        ]
+        ],
       });
 
       if (credential) {
@@ -150,18 +136,19 @@ function AuthProvider({ children }: AuthProviderProps) {
     loadUserStorageDate();
   }, []);
 
-
   return (
-    <AuthContext.Provider value={{
-      user,
-      signInWithGoogle,
-      signInWithApple,
-      signOut,
-      userStorageLoading
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        signInWithGoogle,
+        signInWithApple,
+        signOut,
+        userStorageLoading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
-  )
+  );
 }
 
 function useAuth() {
@@ -169,4 +156,4 @@ function useAuth() {
   return context;
 }
 
-export { AuthProvider, useAuth }
+export { AuthProvider, useAuth };

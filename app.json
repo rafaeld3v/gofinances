@@ -17,7 +17,8 @@
     },
     "assetBundlePatterns": ["*/"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rafaeld3v.gofinances"
     },
     "android": {
       "adaptiveIcon": {

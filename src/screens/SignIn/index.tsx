@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { ActivityIndicator, Alert, Platform } from 'react-native';
-import { useTheme } from 'styled-components';
+import React, { useState } from "react";
+import { ActivityIndicator, Alert, Platform } from "react-native";
+import { useTheme } from "styled-components";
 
 import {
   Container,
@@ -10,15 +10,15 @@ import {
   SignInTitle,
   Footer,
   FooterWrapper,
-} from './styles';
+} from "./styles";
 
-import { RFValue } from 'react-native-responsive-fontsize';
-import { useAuth } from '../../hooks/auth';
-import { SignInSocialButton } from '../../components/SignInSocialButton';
+import { RFValue } from "react-native-responsive-fontsize";
+import { useAuth } from "../../hooks/auth";
+import { SignInSocialButton } from "../../components/SignInSocialButton";
 
-import AppleSvg from '../../assets/apple.svg';
-import GoogleSvg from '../../assets/google.svg';
-import LogoSvg from '../../assets/logo.svg';
+import AppleSvg from "../../assets/apple.svg";
+import GoogleSvg from "../../assets/google.svg";
+import LogoSvg from "../../assets/logo.svg";
 
 export function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +31,7 @@ export function SignIn() {
       return await signInWithGoogle();
     } catch (error) {
       console.log(error);
-      Alert.alert('Não foi possível conectar a conta Google');
+      Alert.alert("Não foi possível conectar a conta Google");
       setIsLoading(false);
     }
   }
@@ -42,7 +42,7 @@ export function SignIn() {
       return await signInWithApple();
     } catch (error) {
       console.log(error);
-      Alert.alert('Não foi possível conectar a conta Apple');
+      Alert.alert("Não foi possível conectar a conta Apple");
       setIsLoading(false);
     }
   }
@@ -54,12 +54,12 @@ export function SignIn() {
           <LogoSvg width={RFValue(120)} height={RFValue(68)} />
 
           <Title>
-            Controle suas{'\n'} finanças de forma{'\n'} muito simples
+            Controle suas{"\n"} finanças de forma{"\n"} muito simples
           </Title>
         </TitleWrapper>
 
         <SignInTitle>
-          Faça seu login com{'\n'} uma das contas abaixo
+          Faça seu login com{"\n"} uma das contas abaixo
         </SignInTitle>
       </Header>
 
@@ -71,7 +71,7 @@ export function SignIn() {
             onPress={handleSignInWithGoogle}
           />
 
-          {Platform.OS === 'ios' && (
+          {Platform.OS === "ios" && (
             <SignInSocialButton
               title="Entrar com Apple"
               svg={AppleSvg}
