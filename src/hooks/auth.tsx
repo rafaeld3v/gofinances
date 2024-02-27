@@ -5,11 +5,13 @@ import React, {
   useState,
   useEffect,
 } from "react";
-
-import * as GoogleAuthentication from "expo-google-app-auth";
-import * as AppleAuthentication from "expo-apple-authentication";
-
+import { Alert } from "react-native";
+import { IOS_CLIENT_ID, WEB_CLIENT_ID } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import * as AppleAuthentication from "expo-apple-authentication";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -39,34 +41,26 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function signInWithGoogle() {
     try {
-      const { type, user, accessToken, idToken } =
-        await GoogleAuthentication.logInAsync({
-          androidClientId: "SEU_CLIENT_ID_ANDROID",
-          iosClientId: "SEU_CLIENT_ID_IOS",
-          scopes: ["profile", "email"],
-        });
+      GoogleSignin.configure({
+        scopes: ["email", "profile"],
+        webClientId: WEB_CLIENT_ID,
+        iosClientId: IOS_CLIENT_ID,
+      });
 
-      if (type === "success") {
-        const userInfoResponse = await fetch(
-          "https://www.googleapis.com/userinfo/v2/me",
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
+      const { idToken, user } = await GoogleSignin.signIn();
 
-        const userInfo = await userInfoResponse.json();
-
+      if (idToken) {
         const userLogged = {
-          id: userInfo.id,
-          email: userInfo.email || "",
-          name: userInfo.name || "",
-          photo: userInfo.picture || "",
+          id: user.id,
+          email: user.email || "",
+          name: user.name || "",
+          photo: user.photo || "",
         };
 
         setUser(userLogged);
         await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
       } else {
-        throw new Error("Erro ao fazer login com o Google");
+        Alert.alert("Não foi possível conectar-se a sua conta google.");
       }
     } catch (error: any) {
       throw new Error(error.message || "Erro ao fazer login com o Google");

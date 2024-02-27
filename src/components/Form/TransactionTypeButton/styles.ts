@@ -1,16 +1,16 @@
-import styled, { css } from 'styled-components/native';
+import styled, { css } from "styled-components/native";
 
-import { RectButton } from 'react-native-gesture-handler';
-import { Feather } from '@expo/vector-icons';
-import { RFValue } from 'react-native-responsive-fontsize';
+import { RectButton } from "react-native-gesture-handler";
+import { Feather } from "@expo/vector-icons";
+import { RFValue } from "react-native-responsive-fontsize";
 
 interface IconProps {
-  type: 'up' | 'down';
+  type: "up" | "down";
 }
 
 interface ContainerProps {
   isActive: boolean;
-  type: 'up' | 'down';
+  type: "up" | "down";
 }
 
 export const Container = styled.View<ContainerProps>`
@@ -23,14 +23,14 @@ export const Container = styled.View<ContainerProps>`
 
   ${({ isActive, type }) =>
     isActive &&
-    type === 'up' &&
+    type === "up" &&
     css`
       background-color: ${({ theme }) => theme.colors.success_light};
     `}
 
   ${({ isActive, type }) =>
     isActive &&
-    type === 'down' &&
+    type === "down" &&
     css`
       background-color: ${({ theme }) => theme.colors.attention_light};
     `}
@@ -48,7 +48,7 @@ export const Icon = styled(Feather)<IconProps>`
   margin-right: 12px;
 
   color: ${({ theme, type }) =>
-    type == 'up' ? theme.colors.success : theme.colors.attention};
+    type == "up" ? theme.colors.success : theme.colors.attention};
 `;
 
 export const Title = styled.Text`

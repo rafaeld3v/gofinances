@@ -1,14 +1,14 @@
-import React from 'react';
-import { Platform } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useTheme } from 'styled-components';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React from "react";
+import { Platform } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useTheme } from "styled-components";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-import { Dashboard } from '../screens/Dashboard';
-import { Register } from '../screens/Register';
-import { Resume } from '../screens/Resume';
+import { Dashboard } from "../screens/Dashboard";
+import { Register } from "../screens/Register";
+import { Resume } from "../screens/Resume";
 
 export function AppRoutes() {
   const theme = useTheme();
@@ -19,10 +19,10 @@ export function AppRoutes() {
         headerShown: false,
         tabBarActiveTintColor: theme.colors.secondary,
         tabBarInactiveTintColor: theme.colors.text,
-        tabBarLabelPosition: 'beside-icon',
+        tabBarLabelPosition: "beside-icon",
         tabBarStyle: {
           height: 88,
-          paddingVertical: Platform.OS === 'ios' ? 20 : 0,
+          paddingVertical: Platform.OS === "ios" ? 20 : 0,
         },
       }}
     >

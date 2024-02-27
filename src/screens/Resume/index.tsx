@@ -1,19 +1,18 @@
-import React, { useCallback, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { VictoryPie } from 'victory-native';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { addMonths, format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import { subMonths } from 'date-fns/esm';
-import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useState } from "react";
+import { ActivityIndicator } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { RFValue } from "react-native-responsive-fontsize";
+import { addMonths, format, subMonths } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { useFocusEffect } from "@react-navigation/native";
+import { VictoryPie } from "victory";
 
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { useTheme } from 'styled-components';
-import { categories } from '../../utils/categories';
-import { useAuth } from '../../hooks/auth';
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useTheme } from "styled-components";
+import { categories } from "../../utils/categories";
+import { useAuth } from "../../hooks/auth";
 
-import { HistoryCard } from '../../components/HistoryCard';
+import { HistoryCard } from "../../components/HistoryCard";
 
 import {
   Container,
@@ -26,10 +25,10 @@ import {
   SelectIcon,
   Month,
   LoadingContainer,
-} from './styles';
+} from "./styles";
 
 interface TransactionData {
-  type: 'positive' | 'negative';
+  type: "positive" | "negative";
   name: string;
   amount: string;
   category: string;
@@ -49,14 +48,14 @@ export function Resume() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>(
-    []
+    [],
   );
 
   const theme = useTheme();
   const { user } = useAuth();
 
-  function handleDateChange(action: 'prev' | 'next') {
-    if (action === 'next') {
+  function handleDateChange(action: "prev" | "next") {
+    if (action === "next") {
       setSelectedDate(addMonths(selectedDate, 1));
     } else {
       setSelectedDate(subMonths(selectedDate, 1));
@@ -71,16 +70,16 @@ export function Resume() {
 
     const expensives = responseFormatted.filter(
       (expensive: TransactionData) =>
-        expensive.type === 'negative' &&
+        expensive.type === "negative" &&
         new Date(expensive.date).getMonth() === selectedDate.getMonth() &&
-        new Date(expensive.date).getFullYear() === selectedDate.getFullYear()
+        new Date(expensive.date).getFullYear() === selectedDate.getFullYear(),
     );
 
     const expensivesTotal = expensives.reduce(
       (acumullator: number, expensives: TransactionData) => {
         return acumullator + Number(expensives.amount);
       },
-      0
+      0,
     );
 
     const totalByCategory: CategoryData[] = [];
@@ -95,13 +94,13 @@ export function Resume() {
       });
 
       if (categorySum > 0) {
-        const totalFormatted = categorySum.toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
+        const totalFormatted = categorySum.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
         });
 
         const percent = `${((categorySum / expensivesTotal) * 100).toFixed(
-          0
+          0,
         )}%`;
 
         totalByCategory.push({
@@ -122,7 +121,7 @@ export function Resume() {
   useFocusEffect(
     useCallback(() => {
       loadData();
-    }, [selectedDate])
+    }, [selectedDate]),
   );
 
   return (
@@ -144,15 +143,15 @@ export function Resume() {
           }}
         >
           <MonthSelect>
-            <MonthSelectButton onPress={() => handleDateChange('prev')}>
+            <MonthSelectButton onPress={() => handleDateChange("prev")}>
               <SelectIcon name="chevron-left" />
             </MonthSelectButton>
 
             <Month>
-              {format(selectedDate, 'MMMM, yyyy', { locale: ptBR })}
+              {format(selectedDate, "MMMM, yyyy", { locale: ptBR })}
             </Month>
 
-            <MonthSelectButton onPress={() => handleDateChange('next')}>
+            <MonthSelectButton onPress={() => handleDateChange("next")}>
               <SelectIcon name="chevron-right" />
             </MonthSelectButton>
           </MonthSelect>
@@ -164,7 +163,7 @@ export function Resume() {
               style={{
                 labels: {
                   fontSize: RFValue(18),
-                  fontWeight: 'bold',
+                  fontWeight: "bold",
                   fill: theme.colors.shape,
                 },
               }}

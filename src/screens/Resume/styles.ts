@@ -1,8 +1,8 @@
-import styled from 'styled-components/native';
-import { BorderlessButton } from 'react-native-gesture-handler';
-import { Feather } from '@expo/vector-icons';
+import styled from "styled-components/native";
+import { BorderlessButton } from "react-native-gesture-handler";
+import { Feather } from "@expo/vector-icons";
 
-import { RFValue } from 'react-native-responsive-fontsize';
+import { RFValue } from "react-native-responsive-fontsize";
 
 export const Container = styled.View`
   flex: 1;

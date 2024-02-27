@@ -3,7 +3,7 @@ import "intl";
 import "intl/locale-data/jsonp/pt-BR";
 
 import React from "react";
-import { StatusBar } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemeProvider } from "styled-components";
 import theme from "./src/global/styles/theme";
@@ -33,7 +33,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider theme={theme}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar style="light" />
         {fontsLoaded && (
           <AuthProvider>
             <Routes />

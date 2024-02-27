@@ -161,7 +161,12 @@ export function Register() {
             />
           </Fields>
 
-          <Button title="Enviar" onPress={handleSubmit(handleRegister)} />
+          <Button
+            title="Enviar"
+            onPress={handleSubmit((data) =>
+              handleRegister({ ...data, amount: data.amount.toString() }),
+            )}
+          />
         </Form>
 
         <Modal visible={categoryModalOpen}>

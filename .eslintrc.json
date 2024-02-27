@@ -1,0 +1,9 @@
+{
+  "extends": ["@rafaeld3v/eslint-config/react"],
+  "plugins": ["simple-import-sort"],
+  "rules": {
+    "simple-import-sort/imports": "error",
+    "@typescript-eslint/naming-convention": "off",
+    "camelcase": "off"
+  }
+}

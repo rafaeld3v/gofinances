@@ -1,10 +1,10 @@
-import React from 'react';
-import { Control, Controller } from 'react-hook-form';
-import { TextInputProps } from 'react-native';
+import React from "react";
+import { Control, Controller } from "react-hook-form";
+import { TextInputProps } from "react-native";
 
-import { Input } from '../Input';
+import { Input } from "../Input";
 
-import { Container, Error } from './styles';
+import { Container, Error } from "./styles";
 
 interface Props extends TextInputProps {
   control: Control;

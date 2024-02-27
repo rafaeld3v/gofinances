@@ -1,13 +1,14 @@
 {
   "name": "gofinances",
   "displayName": "gofinances",
+  "githubUrl": "https://github.com/rafaeld3v/gofinances",
   "expo": {
     "name": "gofinances",
     "slug": "gofinances",
     "scheme": "gofinances",
-    "originalFullName": "@username/slug",
     "version": "1.0.0",
     "orientation": "portrait",
+    "originalFullName": "@username/slug",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -15,10 +16,11 @@
       "resizeMode": "contain",
       "backgroundColor": "#4124B2"
     },
-    "assetBundlePatterns": ["*/"],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.rafaeld3v.gofinances"
+      "bundleIdentifier": "com.rafaeld3v.gofinances",
+      "usesAppleSignIn": true
     },
     "android": {
       "adaptiveIcon": {
@@ -35,10 +37,6 @@
         "projectId": "2c94296f-71b4-43a4-be78-da9457ddfbc8"
       }
     },
-    "updates": {
-      "url": "https://u.expo.dev/2c94296f-71b4-43a4-be78-da9457ddfbc8",
-      "fallbackToCacheTimeout": 0
-    },
-    "githubUrl": "https://github.com/rafaeld3v/gofinances"
+    "plugins": ["expo-apple-authentication"]
   }
 }

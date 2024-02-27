@@ -1,15 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useCallback, useEffect, useState } from "react";
+import { ActivityIndicator } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { useFocusEffect } from '@react-navigation/native';
-import { useTheme } from 'styled-components';
+import { useFocusEffect } from "@react-navigation/native";
+import { useTheme } from "styled-components";
 
-import { HighlightCard } from '../../components/HighlightCard';
+import { HighlightCard } from "../../components/HighlightCard";
 import {
   TransactionCard,
   TransactionCardProps,
-} from '../../components/TransactionCard';
+} from "../../components/TransactionCard";
 
 import {
   Container,
@@ -27,8 +27,8 @@ import {
   TransactionList,
   LogoutButton,
   LoadingContainer,
-} from './styles';
-import { useAuth } from '../../hooks/auth';
+} from "./styles";
+import { useAuth } from "../../hooks/auth";
 
 export interface DataListProps extends TransactionCardProps {
   id: string;
@@ -49,7 +49,7 @@ export function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState<DataListProps[]>([]);
   const [highlightData, setHighlightData] = useState<HighlightData>(
-    {} as HighlightData
+    {} as HighlightData,
   );
 
   const theme = useTheme();
@@ -57,10 +57,10 @@ export function Dashboard() {
 
   function getLastTransactionDate(
     collection: DataListProps[],
-    type: 'positive' | 'negative'
+    type: "positive" | "negative",
   ) {
     const collectionFilttered = collection.filter(
-      (transaction) => transaction.type === type
+      (transaction) => transaction.type === type,
     );
 
     if (collectionFilttered.length === 0) {
@@ -71,14 +71,14 @@ export function Dashboard() {
       Math.max.apply(
         Math,
         collectionFilttered.map((transaction) =>
-          new Date(transaction.date).getTime()
-        )
-      )
+          new Date(transaction.date).getTime(),
+        ),
+      ),
     );
 
     return `${lastTransaction.getDate()} de ${lastTransaction.toLocaleString(
-      'pt-BR',
-      { month: 'long' }
+      "pt-BR",
+      { month: "long" },
     )}`;
   }
 
@@ -92,21 +92,21 @@ export function Dashboard() {
 
     const transactionFormatted: DataListProps[] = transactions.map(
       (item: DataListProps) => {
-        if (item.type === 'positive') {
+        if (item.type === "positive") {
           entrieTotal += Number(item.amount);
         } else {
           expensiveTotal += Number(item.amount);
         }
 
-        const amount = Number(item.amount).toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
+        const amount = Number(item.amount).toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
         });
 
-        const date = Intl.DateTimeFormat('pt-BR', {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit',
+        const date = Intl.DateTimeFormat("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
         }).format(new Date(item.date));
 
         return {
@@ -117,53 +117,53 @@ export function Dashboard() {
           category: item.category,
           date,
         };
-      }
+      },
     );
 
     setTransactions(transactionFormatted);
 
     const lastTransactionEntries = getLastTransactionDate(
       transactions,
-      'positive'
+      "positive",
     );
 
     const lastTransactionExpensives = getLastTransactionDate(
       transactions,
-      'negative'
+      "negative",
     );
 
     const totalInterval =
       lastTransactionExpensives === 0
-        ? 'Não há transações'
+        ? "Não há transações"
         : `01 a ${lastTransactionExpensives}`;
 
     const total = entrieTotal - expensiveTotal;
 
     setHighlightData({
       entries: {
-        amount: entrieTotal.toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
+        amount: entrieTotal.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
         }),
         lastTransaction:
           lastTransactionEntries === 0
-            ? 'Não há transações'
+            ? "Não há transações"
             : `Última entrada dia ${lastTransactionEntries}`,
       },
       expensives: {
-        amount: expensiveTotal.toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
+        amount: expensiveTotal.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
         }),
         lastTransaction:
           lastTransactionEntries === 0
-            ? 'Não há transações'
+            ? "Não há transações"
             : `Última saída dia ${lastTransactionExpensives}`,
       },
       total: {
-        amount: total.toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
+        amount: total.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
         }),
         lastTransaction: totalInterval,
       },
@@ -179,7 +179,7 @@ export function Dashboard() {
   useFocusEffect(
     useCallback(() => {
       loadTransactions();
-    }, [])
+    }, []),
   );
 
   return (
