@@ -1,30 +1,28 @@
-import React, { useCallback, useState } from "react";
-import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { RFValue } from "react-native-responsive-fontsize";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useFocusEffect } from "@react-navigation/native";
 import { addMonths, format, subMonths } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { useFocusEffect } from "@react-navigation/native";
-import { VictoryPie } from "victory";
-
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import React, { useCallback, useState } from "react";
+import { ActivityIndicator } from "react-native";
+import { RFValue } from "react-native-responsive-fontsize";
 import { useTheme } from "styled-components";
-import { categories } from "../../utils/categories";
-import { useAuth } from "../../hooks/auth";
+import { VictoryPie } from "victory-native";
 
 import { HistoryCard } from "../../components/HistoryCard";
-
+import { useAuth } from "../../hooks/auth";
+import { categories } from "../../utils/categories";
 import {
-  Container,
-  Header,
-  Title,
-  Content,
   ChartContainer,
+  Container,
+  Content,
+  Header,
+  LoadingContainer,
+  Month,
   MonthSelect,
   MonthSelectButton,
   SelectIcon,
-  Month,
-  LoadingContainer,
+  Title,
 } from "./styles";
 
 interface TransactionData {
@@ -62,66 +60,67 @@ export function Resume() {
     }
   }
 
-  async function loadData() {
-    setIsLoading(true);
-    const dataKey = `@gofinances:transactions_user:${user.id}`;
-    const response = await AsyncStorage.getItem(dataKey);
-    const responseFormatted = response ? JSON.parse(response) : [];
-
-    const expensives = responseFormatted.filter(
-      (expensive: TransactionData) =>
-        expensive.type === "negative" &&
-        new Date(expensive.date).getMonth() === selectedDate.getMonth() &&
-        new Date(expensive.date).getFullYear() === selectedDate.getFullYear(),
-    );
-
-    const expensivesTotal = expensives.reduce(
-      (acumullator: number, expensives: TransactionData) => {
-        return acumullator + Number(expensives.amount);
-      },
-      0,
-    );
-
-    const totalByCategory: CategoryData[] = [];
-
-    categories.forEach((category) => {
-      let categorySum = 0;
-
-      expensives.forEach((expensive: TransactionData) => {
-        if (expensive.category === category.key) {
-          categorySum += Number(expensive.amount);
-        }
-      });
-
-      if (categorySum > 0) {
-        const totalFormatted = categorySum.toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
-
-        const percent = `${((categorySum / expensivesTotal) * 100).toFixed(
-          0,
-        )}%`;
-
-        totalByCategory.push({
-          key: category.key,
-          name: category.name,
-          total: categorySum,
-          totalFormatted,
-          color: category.color,
-          percent,
-        });
-      }
-    });
-
-    setTotalByCategories(totalByCategory);
-    setIsLoading(false);
-  }
-
   useFocusEffect(
     useCallback(() => {
+      async function loadData() {
+        setIsLoading(true);
+        const dataKey = `@gofinances:transactions_user:${user.id}`;
+        const response = await AsyncStorage.getItem(dataKey);
+        const responseFormatted = response ? JSON.parse(response) : [];
+
+        const expensives = responseFormatted.filter(
+          (expensive: TransactionData) =>
+            expensive.type === "negative" &&
+            new Date(expensive.date).getMonth() === selectedDate.getMonth() &&
+            new Date(expensive.date).getFullYear() ===
+              selectedDate.getFullYear(),
+        );
+
+        const expensivesTotal = expensives.reduce(
+          (acumullator: number, expensives: TransactionData) => {
+            return acumullator + Number(expensives.amount);
+          },
+          0,
+        );
+
+        const totalByCategory: CategoryData[] = [];
+
+        categories.forEach((category) => {
+          let categorySum = 0;
+
+          expensives.forEach((expensive: TransactionData) => {
+            if (expensive.category === category.key) {
+              categorySum += Number(expensive.amount);
+            }
+          });
+
+          if (categorySum > 0) {
+            const totalFormatted = categorySum.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            });
+
+            const percent = `${((categorySum / expensivesTotal) * 100).toFixed(
+              0,
+            )}%`;
+
+            totalByCategory.push({
+              key: category.key,
+              name: category.name,
+              total: categorySum,
+              totalFormatted,
+              color: category.color,
+              percent,
+            });
+          }
+        });
+
+        setTotalByCategories(totalByCategory);
+        setIsLoading(false);
+      }
+
       loadData();
-    }, [selectedDate]),
+    }, [selectedDate, user.id]),
   );
 
   return (
@@ -139,6 +138,7 @@ export function Resume() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             paddingHorizontal: 24,
+            // eslint-disable-next-line react-hooks/rules-of-hooks
             paddingBottom: useBottomTabBarHeight(),
           }}
         >

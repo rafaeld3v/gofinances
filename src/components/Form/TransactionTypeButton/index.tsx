@@ -1,7 +1,7 @@
 import React from "react";
 import { RectButtonProps } from "react-native-gesture-handler";
 
-import { Container, Icon, Title, Button } from "./styles";
+import { Button, Container, Icon, Title } from "./styles";
 
 interface Props extends RectButtonProps {
   type: "up" | "down";

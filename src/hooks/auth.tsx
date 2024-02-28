@@ -1,16 +1,15 @@
+import { IOS_CLIENT_ID, WEB_CLIENT_ID } from "@env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import * as AppleAuthentication from "expo-apple-authentication";
 import React, {
   createContext,
   ReactNode,
   useContext,
-  useState,
   useEffect,
+  useState,
 } from "react";
 import { Alert } from "react-native";
-import { IOS_CLIENT_ID, WEB_CLIENT_ID } from "@env";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import * as AppleAuthentication from "expo-apple-authentication";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -39,14 +38,14 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const userStorageKey = "@gofinances:user";
 
+  GoogleSignin.configure({
+    scopes: ["email", "profile"],
+    webClientId: WEB_CLIENT_ID,
+    iosClientId: IOS_CLIENT_ID,
+  });
+
   async function signInWithGoogle() {
     try {
-      GoogleSignin.configure({
-        scopes: ["email", "profile"],
-        webClientId: WEB_CLIENT_ID,
-        iosClientId: IOS_CLIENT_ID,
-      });
-
       const { idToken, user } = await GoogleSignin.signIn();
 
       if (idToken) {
@@ -62,7 +61,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       } else {
         Alert.alert("Não foi possível conectar-se a sua conta google.");
       }
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(error.message || "Erro ao fazer login com o Google");
     }
   }

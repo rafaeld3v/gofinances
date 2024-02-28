@@ -1,17 +1,17 @@
 import React from "react";
 import { FlatList, Pressable } from "react-native";
+
 import { Button } from "../../components/Form/Button";
 import { categories } from "../../utils/categories";
-
 import {
-  Container,
-  Header,
-  Title,
   Category,
+  Container,
+  Footer,
+  Header,
   Icon,
   Name,
   Separator,
-  Footer,
+  Title,
 } from "./styles";
 
 interface Category {

@@ -1,13 +1,12 @@
-import styled from "styled-components/native";
-
-import { FlatList, FlatListProps } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { FlatList, FlatListProps } from "react-native";
+import { BorderlessButton } from "react-native-gesture-handler";
 import {
   getBottomSpace,
   getStatusBarHeight,
 } from "react-native-iphone-x-helper";
-import { BorderlessButton } from "react-native-gesture-handler";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import styled from "styled-components/native";
 
 import { DataListProps } from ".";
 

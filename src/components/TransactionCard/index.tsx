@@ -1,17 +1,16 @@
 import React from "react";
 
-import {
-  Container,
-  Title,
-  Amount,
-  Footer,
-  Category,
-  Icon,
-  CategoryName,
-  Date,
-} from "./styles";
-
 import { categories } from "../../utils/categories";
+import {
+  Amount,
+  Category,
+  CategoryName,
+  Container,
+  Date,
+  Footer,
+  Icon,
+  Title,
+} from "./styles";
 
 export interface CategoryProps {
   key: string;

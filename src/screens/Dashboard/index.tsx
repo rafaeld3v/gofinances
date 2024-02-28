@@ -1,8 +1,7 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import { useFocusEffect } from "@react-navigation/native";
 import { useTheme } from "styled-components";
 
 import { HighlightCard } from "../../components/HighlightCard";
@@ -10,25 +9,24 @@ import {
   TransactionCard,
   TransactionCardProps,
 } from "../../components/TransactionCard";
-
+import { useAuth } from "../../hooks/auth";
 import {
   Container,
   Header,
-  UserWrapper,
-  UserInfo,
-  Photo,
-  User,
-  UserGreeting,
-  UserName,
-  Icon,
   HighlightCards,
-  Transactions,
+  Icon,
+  LoadingContainer,
+  LogoutButton,
+  Photo,
   Title,
   TransactionList,
-  LogoutButton,
-  LoadingContainer,
+  Transactions,
+  User,
+  UserGreeting,
+  UserInfo,
+  UserName,
+  UserWrapper,
 } from "./styles";
-import { useAuth } from "../../hooks/auth";
 
 export interface DataListProps extends TransactionCardProps {
   id: string;
@@ -68,9 +66,8 @@ export function Dashboard() {
     }
 
     const lastTransaction = new Date(
-      Math.max.apply(
-        Math,
-        collectionFilttered.map((transaction) =>
+      Math.max(
+        ...collectionFilttered.map((transaction) =>
           new Date(transaction.date).getTime(),
         ),
       ),
@@ -82,7 +79,7 @@ export function Dashboard() {
     )}`;
   }
 
-  async function loadTransactions() {
+  const loadTransactions = useCallback(async () => {
     const dataKey = `@gofinances:transactions_user:${user.id}`;
     const response = await AsyncStorage.getItem(dataKey);
     const transactions = response ? JSON.parse(response) : [];
@@ -170,16 +167,16 @@ export function Dashboard() {
     });
 
     setIsLoading(false);
-  }
+  }, [user.id]);
 
   useEffect(() => {
     loadTransactions();
-  }, []);
+  }, [loadTransactions]);
 
   useFocusEffect(
     useCallback(() => {
       loadTransactions();
-    }, []),
+    }, [loadTransactions]),
   );
 
   return (
@@ -240,7 +237,7 @@ export function Dashboard() {
               renderItem={({ item }) => {
                 return <TransactionCard data={item} />;
               }}
-            ></TransactionList>
+            />
           </Transactions>
         </>
       )}
