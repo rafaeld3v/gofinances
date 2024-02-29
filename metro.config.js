@@ -1,4 +1,5 @@
-import { getDefaultConfig } from "expo/metro-config";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { getDefaultConfig } = require("expo/metro-config");
 
 export default (() => {
   const config = getDefaultConfig(__dirname);
