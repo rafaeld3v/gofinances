@@ -6,7 +6,8 @@
     "name": "gofinances",
     "slug": "gofinances",
     "scheme": "gofinances",
-    "version": "1.1.0",
+    "version": "1.2.0",
+    "versionCode": 2,
     "orientation": "portrait",
     "originalFullName": "@username/slug",
     "icon": "./assets/icon.png",
@@ -29,8 +30,8 @@
       },
       "package": "com.rafaeld3v.gofinances",
       "config": {
-        "keystorePath": "android/my-release-key.keystore",
-        "keystoreAlias": "my-key-alias"
+        "keystorePath": "android/app/upload-keystore.jks",
+        "keystoreAlias": "upload"
       }
     },
     "web": {

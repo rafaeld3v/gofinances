@@ -17,13 +17,14 @@
       "android": {
         "buildType": "apk",
         "gradleCommand": ":app:assembleRelease"
-      },
-      "env": {
-        "ANDROID_CLIENT_ID": "49891934433-o0c6eng1sdbsmdldgfldd7oq92trinfi.apps.googleusercontent.com",
-        "IOS_CLIENT_ID": "49891934433-ur2mbuk9lpco5sknmtb7pohsja0vhcv1.apps.googleusercontent.com",
-        "WEB_CLIENT_ID": "49891934433-0f35kvqm7fatrtc1v8lp65dftekbkhfd.apps.googleusercontent.com"
       }
     },
-    "production": {}
+    "production": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "app-bundle",
+        "gradleCommand": ":app:bundleRelease"
+      }
+    }
   }
 }
