@@ -1,24 +1,22 @@
 import React, { useState } from "react";
 import { ActivityIndicator, Alert, Platform } from "react-native";
-import { useTheme } from "styled-components";
-
-import {
-  Container,
-  Header,
-  TitleWrapper,
-  Title,
-  SignInTitle,
-  Footer,
-  FooterWrapper,
-} from "./styles";
-
 import { RFValue } from "react-native-responsive-fontsize";
-import { useAuth } from "../../hooks/auth";
-import { SignInSocialButton } from "../../components/SignInSocialButton";
+import { useTheme } from "styled-components";
 
 import AppleSvg from "../../assets/apple.svg";
 import GoogleSvg from "../../assets/google.svg";
 import LogoSvg from "../../assets/logo.svg";
+import { SignInSocialButton } from "../../components/SignInSocialButton";
+import { useAuth } from "../../hooks/auth";
+import {
+  Container,
+  Footer,
+  FooterWrapper,
+  Header,
+  SignInTitle,
+  Title,
+  TitleWrapper,
+} from "./styles";
 
 export function SignIn() {
   const [isLoading, setIsLoading] = useState(false);

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, Pressable } from "react-native";
+import { FlatList } from "react-native";
 
 import { Button } from "../../components/Form/Button";
 import { categories } from "../../utils/categories";
@@ -57,9 +57,7 @@ export function CategorySelect({
       />
 
       <Footer>
-        <Pressable onPress={closeSelectCategory}>
-          <Button title="Selecionar" onPress={closeSelectCategory} />
-        </Pressable>
+        <Button title="Selecionar" onPress={closeSelectCategory} />
       </Footer>
     </Container>
   );
