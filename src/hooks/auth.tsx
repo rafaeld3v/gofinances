@@ -11,6 +11,8 @@ import React, {
 } from "react";
 import { Alert } from "react-native";
 
+import firebase from "@/services/firebaseConfig";
+
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -26,6 +28,7 @@ interface IAuthContextData {
   user: User;
   signInWithGoogle(): Promise<void>;
   signInWithApple(): Promise<void>;
+  signInWithFirebase(data: { email: string; password: string }): Promise<void>;
   signOut(): Promise<void>;
   userStorageLoading: boolean;
 }
@@ -94,6 +97,28 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function signInWithFirebase(data: { email: string; password: string }) {
+    try {
+      const database = firebase.app();
+
+      const auth = await database
+        .auth()
+        .signInWithEmailAndPassword(data.email, data.password);
+
+      const userLogged = {
+        id: auth.user.uid,
+        name: "Jack Sparrow",
+        email: auth.user.email,
+        photo: auth.user.photoURL,
+      };
+
+      setUser(userLogged);
+      await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
+    } catch (error) {
+      throw new Error(String(error));
+    }
+  }
+
   async function signOut() {
     try {
       setUser({} as User);
@@ -124,6 +149,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         user,
         signInWithGoogle,
         signInWithApple,
+        signInWithFirebase,
         signOut,
         userStorageLoading,
       }}

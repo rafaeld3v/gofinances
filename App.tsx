@@ -1,5 +1,6 @@
 import "intl";
 import "intl/locale-data/jsonp/pt-BR";
+import "@/services/firebaseConfig";
 
 import {
   Poppins_400Regular,

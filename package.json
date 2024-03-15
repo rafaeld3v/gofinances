@@ -24,6 +24,7 @@
     "expo-dev-client": "~3.3.10",
     "expo-status-bar": "~1.11.1",
     "expo-system-ui": "~2.9.3",
+    "firebase": "^10.9.0",
     "intl": "^1.2.5",
     "metro": "~0.80.4",
     "metro-config": "~0.80.4",

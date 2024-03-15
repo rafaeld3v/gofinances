@@ -1,5 +1,5 @@
-import styled from "styled-components/native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex: 1;
@@ -52,3 +52,7 @@ export const FooterWrapper = styled.View`
   padding: 0 32px;
   justify-content: space-between;
 `;
+
+export const Form = styled.ScrollView``;
+
+export const Fields = styled.View``;
