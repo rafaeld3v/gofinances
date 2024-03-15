@@ -109,7 +109,8 @@ function AuthProvider({ children }: AuthProviderProps) {
         id: auth.user.uid,
         name: "Jack Sparrow",
         email: auth.user.email,
-        photo: auth.user.photoURL,
+        photo:
+          "https://images.unsplash.com/photo-1633332755192-727a05c4013d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w0Mzc0NDd8MHwxfHNlYXJjaHw4fHxhdmF0YXJ8ZW58MHx8fHwxNzEwNDQzMjE0fDA&ixlib=rb-4.0.3&q=85&q=85&fmt=jpg&crop=entropy&cs=tinysrgb&w=450",
       };
 
       setUser(userLogged);
