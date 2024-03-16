@@ -11,8 +11,6 @@ import React, {
 } from "react";
 import { Alert } from "react-native";
 
-import firebase from "@/services/firebaseConfig";
-
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -28,7 +26,6 @@ interface IAuthContextData {
   user: User;
   signInWithGoogle(): Promise<void>;
   signInWithApple(): Promise<void>;
-  signInWithFirebase(data: { email: string; password: string }): Promise<void>;
   signOut(): Promise<void>;
   userStorageLoading: boolean;
 }
@@ -97,29 +94,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  async function signInWithFirebase(data: { email: string; password: string }) {
-    try {
-      const database = firebase.app();
-
-      const auth = await database
-        .auth()
-        .signInWithEmailAndPassword(data.email, data.password);
-
-      const userLogged = {
-        id: auth.user.uid,
-        name: "Jack Sparrow",
-        email: auth.user.email,
-        photo:
-          "https://images.unsplash.com/photo-1633332755192-727a05c4013d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w0Mzc0NDd8MHwxfHNlYXJjaHw4fHxhdmF0YXJ8ZW58MHx8fHwxNzEwNDQzMjE0fDA&ixlib=rb-4.0.3&q=85&q=85&fmt=jpg&crop=entropy&cs=tinysrgb&w=450",
-      };
-
-      setUser(userLogged);
-      await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
-    } catch (error) {
-      throw new Error(String(error));
-    }
-  }
-
   async function signOut() {
     try {
       setUser({} as User);
@@ -150,7 +124,6 @@ function AuthProvider({ children }: AuthProviderProps) {
         user,
         signInWithGoogle,
         signInWithApple,
-        signInWithFirebase,
         signOut,
         userStorageLoading,
       }}
